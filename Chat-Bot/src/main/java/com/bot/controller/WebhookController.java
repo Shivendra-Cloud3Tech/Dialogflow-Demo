@@ -11,8 +11,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebhookController {
 
+     public String address=null;
+    public String issuety=null;
+
+    public String location=null;
+
+    public String detail=null;
+
     @Autowired
     RegisterComplainRepo registerComplainRepo;
+
+     public void saveinfo(String address, String issuety ,String location,String detail ){
+
+        RegisterComplain registerComplain= new RegisterComplain();
+        registerComplain.setAddress(address);
+        registerComplain.setIssueType(issuety);
+        registerComplain.setLocation(location);
+        registerComplain.setDetails(detail);
+        registerComplainRepo.save(registerComplain);
+
+    }
 
     @PostMapping("/webhook")
     public WebhookResponse handleWebhook(@RequestBody WebhookRequest webhookRequest) {
@@ -25,7 +43,10 @@ public class WebhookController {
         Intent intent=queryResult.getIntent();
         String intentname= intent.getDisplayName();
 
-        switch (intentname){
+ switch (intentname){
+
+
+
 
 //         if (intentname.equals(intentname)){
             case "complain":
@@ -42,26 +63,41 @@ public class WebhookController {
             case "ReportIssue":
                 String issue1 = parameter.getIssue();
                 System.out.println("issue name"+issue1);
+                issuety=issue1;
                 return new WebhookResponse( "Can you please provide the address where you found the pothole?");
 
             case "Get-Address":
                 String add1= parameter.getAddress();
                 System.out.println(add1);
+                address=add1;
                 return new WebhookResponse(" Got it. Can you tell me where the pothole is? Is it close to the crosswalk, along the curb lane, at the intersection, or within the traffic lane?");
 
             case  "Get-loaction":
-                String location = parameter.getIssuelocation();
-                System.out.println(location);
+                String location1 = parameter.getIssuelocation();
+                System.out.println(location1);
+                location=location1;
+//                this.saveinfo(address,issuety,location);
                 return new WebhookResponse("I appreciate your help. Can you please supply additional information?");
 
+                 case "add-info":
+               String message= queryResult.getQueryText();
+               detail=message;
 
-                    default:
-                return new WebhookResponse("complain unreachable");
+                this.saveinfo(address,issuety,location,detail);
+                return new WebhookResponse("Do you have any picture to share");
+
+
+            case "add-picture":
+                return new WebhookResponse("Your complaint has been successfully registered. Thank you for bringing this matter to our attention.");
+
+
+
+                 
 
         }
 
 
-//       return new WebhookResponse("complain unreachable");
+   return new WebhookResponse("complain unreachable");
     }
 
 
