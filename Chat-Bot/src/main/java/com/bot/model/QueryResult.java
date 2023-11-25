@@ -10,6 +10,7 @@ public class QueryResult {
     private Parameters parameters;
     private String session;
     private OutputContexts outputContext;
+    private String queryText;
 
     // getters and setters
 }

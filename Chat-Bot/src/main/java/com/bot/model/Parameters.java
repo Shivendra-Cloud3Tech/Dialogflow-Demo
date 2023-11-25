@@ -10,4 +10,5 @@ public class Parameters {
     String issue;
     String address;
     String issuelocation;
+    String request;
 }

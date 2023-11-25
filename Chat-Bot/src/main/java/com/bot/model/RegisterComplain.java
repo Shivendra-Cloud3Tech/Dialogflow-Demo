@@ -16,5 +16,7 @@ public class RegisterComplain {
     int id;
     String IssueType;
     String Address;
-
+    String Location;
+    String Details;
+    String RequestType;
 }

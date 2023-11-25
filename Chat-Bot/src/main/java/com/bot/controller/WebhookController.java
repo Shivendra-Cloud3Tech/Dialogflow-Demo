@@ -8,29 +8,51 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class WebhookController {
 
-     public String address=null;
+    public String address=null;
     public String issuety=null;
 
     public String location=null;
 
     public String detail=null;
 
+    public String request=null;
+
+
+
+
+
     @Autowired
     RegisterComplainRepo registerComplainRepo;
 
-     public void saveinfo(String address, String issuety ,String location,String detail ){
+
+    public void saveinfo(String address, String issuety ,String location,String detail,String request ){
 
         RegisterComplain registerComplain= new RegisterComplain();
         registerComplain.setAddress(address);
         registerComplain.setIssueType(issuety);
         registerComplain.setLocation(location);
         registerComplain.setDetails(detail);
+        registerComplain.setRequestType(request);
         registerComplainRepo.save(registerComplain);
 
     }
+//    ---------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
     @PostMapping("/webhook")
     public WebhookResponse handleWebhook(@RequestBody WebhookRequest webhookRequest) {
@@ -43,7 +65,9 @@ public class WebhookController {
         Intent intent=queryResult.getIntent();
         String intentname= intent.getDisplayName();
 
- switch (intentname){
+
+
+        switch (intentname){
 
 
 
@@ -59,6 +83,20 @@ public class WebhookController {
              registerComplainRepo.save(regcomp);
 
              return new WebhookResponse("Your complain have been register successfully");
+
+            case "start-convo":
+                String req= parameter.getRequest();
+                request=req;
+                return new WebhookResponse( "Choose the request type: Pothole, tree debris, street light out, or graffiti.");
+
+//            case "full-info":
+//                String it= parameter.getIssue();
+//                String addre= parameter.getAddress();
+//                String addloca= parameter.getIssuelocation();
+
+
+
+
 
             case "ReportIssue":
                 String issue1 = parameter.getIssue();
@@ -79,11 +117,11 @@ public class WebhookController {
 //                this.saveinfo(address,issuety,location);
                 return new WebhookResponse("I appreciate your help. Can you please supply additional information?");
 
-                 case "add-info":
+            case "add-info":
                String message= queryResult.getQueryText();
                detail=message;
 
-                this.saveinfo(address,issuety,location,detail);
+                this.saveinfo(address,issuety,location,detail,request);
                 return new WebhookResponse("Do you have any picture to share");
 
 
@@ -92,14 +130,15 @@ public class WebhookController {
 
 
 
-                 
-
         }
+
+
+
+
 
 
    return new WebhookResponse("complain unreachable");
     }
-
 
 
 }
