@@ -16,6 +16,11 @@
 	<properties>
 		<java.version>17</java.version>
 		<slack-sdk.version>1.36.1</slack-sdk.version>
+
+		<maven.compiler.release>17</maven.compiler.release>
+		<springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-model.version>3.9.4</maven-model.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,6 +30,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
@@ -49,24 +59,68 @@
 			<version>4.9.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.slack.api/bolt -->
+
+
+		<!-- Slack -->
 		<dependency>
 			<groupId>com.slack.api</groupId>
-			<artifactId>bolt</artifactId>
-			<version>${slack-sdk.version}</version>
+			<artifactId>bolt-jetty</artifactId>
+			<version>[1,)</version>
 		</dependency>
 		<dependency>
-			<groupId>com.slack.api</groupId>
-			<artifactId>bolt-servlet</artifactId>
-			<version>${slack-sdk.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<!--		&lt;!&ndash; https://mvnrepository.com/artifact/com.slack.api/bolt &ndash;&gt;-->
+		<!--		<dependency>-->
+		<!--			<groupId>com.slack.api</groupId>-->
+		<!--			<artifactId>bolt</artifactId>-->
+		<!--			<version>${slack-sdk.version}</version>-->
+		<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>com.slack.api</groupId>-->
+		<!--			<artifactId>bolt-servlet</artifactId>-->
+		<!--			<version>${slack-sdk.version}</version>-->
+		<!--		</dependency>-->
 		<dependency>
 			<groupId>com.google.auth</groupId>
 			<artifactId>google-auth-library-oauth2-http</artifactId>
 			<version>1.20.0</version>
 		</dependency>
 
+		<!-- Maven -->
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+			<version>${maven-model.version}</version>
+		</dependency>
+
+		<!-- Open API 3 -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+		</dependency>
+
+		<!--		<dependency>-->
+		<!--			<groupId>javax.servlet</groupId>-->
+		<!--			<artifactId>javax.servlet-api</artifactId>-->
+		<!--			<version>4.0.1</version> &lt;!&ndash; Use the appropriate version &ndash;&gt;-->
+		<!--			<scope>provided</scope>-->
+		<!--		</dependency>-->
 
 	</dependencies>
 
